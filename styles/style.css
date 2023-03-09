@@ -131,7 +131,8 @@ body{
 @media (max-width: 1200px){
 
     .cabecalho{
-        padding: 10%;
+        padding: 10% 0;
+        font-size: 1.5rem;
     }
 
     .cabecalho_menu{
@@ -143,14 +144,17 @@ body{
         
     }
     .imagem{
-        display: flex;
-        justify-content: center;
+        width: 60%;
         margin-left: 10%;
     }
     .apresentacao_conteudo{
         padding: 8% 0 8% 0;
         width: auto;
-    }  
+    } 
+    
+    .apresentacao_conteudo_links_botao{
+        padding: 5% 0;
+    }
 }
 
     
