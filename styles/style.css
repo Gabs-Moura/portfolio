@@ -72,7 +72,7 @@ body{
     font-family: var(--fonte_secundaria);
 }
 
-.apresentacao_conteudo_texto a{
+.apresentacao_conteudo_texto > a{
     text-decoration: none;
     color: var(--cor_terciaria);
 }
