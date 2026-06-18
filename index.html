@@ -1,56 +1,1048 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-br" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio</title>
-    <link rel="stylesheet" href="./styles/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gabriel Moura · Data Engineer</title>
+  <meta name="description" content="Engenheiro de Dados Júnior no C6 Bank, com experiência em Google Cloud Platform, Python e pipelines de dados em larga escala.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg:        #080C14;
+      --surface:   #0D1526;
+      --card:      #0F1B30;
+      --border:    #1A2D4F;
+      --purple:    #7C3AED;
+      --purple-l:  #A78BFA;
+      --blue:      #3B82F6;
+      --blue-l:    #60A5FA;
+      --red:       #EF4444;
+      --green:     #10B981;
+      --amber:     #F59E0B;
+      --t1:        #F1F5F9;
+      --t2:        #8B9EC5;
+      --t3:        #4B6EA8;
+      --fiap-pink: #E9365F;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--t1);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
+
+    /* ── Hero grid bg ── */
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(26,45,79,.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,45,79,.35) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    /* ── Glow orbs ── */
+    .orb-purple { background: radial-gradient(circle, rgba(124,58,237,.22) 0%, transparent 70%); }
+    .orb-blue   { background: radial-gradient(circle, rgba(59,130,246,.14) 0%, transparent 70%); }
+
+    /* ── Gradient text ── */
+    .g-text {
+      background: linear-gradient(135deg, #F1F5F9 0%, #A78BFA 55%, #7C3AED 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .g-text-blue {
+      background: linear-gradient(135deg, #A78BFA 0%, #60A5FA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Glass nav ── */
+    .nav-scrolled {
+      background: rgba(8,12,20,.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(26,45,79,.7);
+    }
+
+    /* ── Gradient border card ── */
+    .g-border {
+      border: 1px solid transparent;
+      background: linear-gradient(var(--card), var(--card)) padding-box,
+                  linear-gradient(135deg, var(--purple), var(--blue)) border-box;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+      font-weight: 600;
+      transition: all .25s ease;
+    }
+    .btn-primary:hover {
+      background: #6d28d9;
+      box-shadow: 0 0 28px rgba(124,58,237,.55);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--t2);
+      transition: all .25s ease;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(124,58,237,.5);
+      color: var(--t1);
+      background: rgba(124,58,237,.06);
+    }
+
+    /* ── Section tag ── */
+    .s-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--purple-l);
+    }
+
+    /* ── Skill badge ── */
+    .skill-badge {
+      background: rgba(13,21,38,.85);
+      border: 1px solid rgba(26,45,79,.9);
+      transition: all .25s ease;
+    }
+    .skill-badge:hover {
+      border-color: rgba(124,58,237,.55);
+      background: rgba(124,58,237,.1);
+      transform: translateY(-2px);
+    }
+
+    /* ── Project card ── */
+    .proj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all .35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .proj-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--blue));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s ease;
+    }
+    .proj-card:hover::before { transform: scaleX(1); }
+    .proj-card:hover {
+      border-color: rgba(124,58,237,.35);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,.4), 0 0 48px rgba(124,58,237,.07);
+    }
+
+    /* ── Timeline ── */
+    .tl-line { background: linear-gradient(to bottom, transparent, var(--purple) 20%, var(--purple) 80%, transparent); }
+    .tl-dot  { background: var(--purple); box-shadow: 0 0 18px rgba(124,58,237,.65); }
+    .tl-dot-main { background: var(--purple); box-shadow: 0 0 28px rgba(124,58,237,1), 0 0 60px rgba(124,58,237,.4); }
+    .tl-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: border-color .25s ease;
+    }
+    .tl-card:hover { border-color: rgba(124,58,237,.4); }
+
+    /* ── Stat card ── */
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all .25s ease;
+    }
+    .stat-card:hover {
+      border-color: rgba(124,58,237,.4);
+      transform: translateY(-3px);
+    }
+
+    /* ── Contact link ── */
+    .contact-link {
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all .25s ease;
+    }
+    .contact-link:hover {
+      border-color: rgba(124,58,237,.5);
+      background: rgba(124,58,237,.07);
+      transform: translateY(-2px);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeLeft { from { opacity:0; transform:translateX(28px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes float    { 0%,100% { transform:translateY(0) rotate(0deg); } 50% { transform:translateY(-14px) rotate(2deg); } }
+    @keyframes pulseGlow{ 0%,100% { opacity:.35; } 50% { opacity:.75; } }
+    @keyframes spinSlow { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+
+    .a-fu1 { animation: fadeUp   .75s ease forwards .1s; opacity:0; }
+    .a-fu2 { animation: fadeUp   .75s ease forwards .28s; opacity:0; }
+    .a-fu3 { animation: fadeUp   .75s ease forwards .46s; opacity:0; }
+    .a-fu4 { animation: fadeUp   .75s ease forwards .64s; opacity:0; }
+    .a-fl  { animation: fadeLeft .75s ease forwards .3s;  opacity:0; }
+    .a-float  { animation: float 6s ease-in-out infinite; }
+    .a-float2 { animation: float 8s ease-in-out infinite 2s; }
+    .a-float3 { animation: float 7s ease-in-out infinite 4s; }
+    .a-float4 { animation: float 9s ease-in-out infinite 1s; }
+    .a-pglow  { animation: pulseGlow 3s ease-in-out infinite; }
+    .a-pglow2 { animation: pulseGlow 3s ease-in-out infinite 1.5s; }
+    .a-spin   { animation: spinSlow 28s linear infinite; }
+
+    /* mobile menu */
+    .mob-menu { display:none; }
+    .mob-menu.open { display:flex; }
+
+    /* cert modal */
+    #cert-modal { display:none; position:fixed; inset:0; z-index:9999; background:rgba(8,12,20,.88); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1.25rem; }
+    #cert-modal.open { display:flex; }
+    #cert-panel { background:var(--surface); border:1px solid var(--border); border-radius:1.25rem; max-width:780px; width:100%; max-height:88vh; overflow-y:auto; }
+    #cert-panel::-webkit-scrollbar { width:4px; }
+    #cert-panel::-webkit-scrollbar-track { background:transparent; }
+    #cert-panel::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+    .cert-group-title { font-size:.65rem; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.1em; }
+    .cert-btn { font-size:.7rem; font-family:'JetBrains Mono',monospace; color:var(--t2); border:1px solid var(--border); border-radius:.625rem; padding:.4rem 1rem; background:transparent; cursor:pointer; transition:color .2s,border-color .2s; }
+    .cert-btn:hover { color:var(--purple-l); border-color:var(--purple); }
+  </style>
 </head>
-
 <body>
-    <header class="cabecalho">
-        <nav class="cabecalho_menu">
-            <a class="cabecalho_menu_link" href="index.html">Home</a>
-            <a class="cabecalho_menu_link" href="about.html">Sobre mim</a>
-            <a class="cabecalho_menu_link" href="curriculo.html">Currículo</a>
-        </nav>
-    </header>
 
-    <main class="apresentacao">
+<!-- ════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        <section class="apresentacao_conteudo">
+    <a href="#hero" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold font-heading" style="background:var(--purple);">GM</div>
+      <span class="text-sm font-semibold font-heading" style="color:var(--t1);">Gabriel Moura</span>
+    </a>
 
-            <h1 class="apresentacao_conteudo_titulo">Eleve ainda mais sua empresa <strong class="titulo-destaque">com um Estagiário de TI de qualidade!</strong></h1>
-            <br>
-            <br>
-            <p class="apresentacao_conteudo_texto">Olá! Sou Gabriel Moura, estudante de Engenharia de Computação na FIAP,
-            e estou ansioso para o início de minha carreira!</p>
-            <br>
-            <br>
-            <div class="apresentacao_conteudo_links">
-                <h2 class="apresentacao_conteudo_subtitulo">Acesse minhas redes:</h2>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#sobre"      class="nav-link text-sm font-body transition-colors" style="color:var(--t2);">Sobre</a>
+      <a href="#trajetoria" class="nav-link text-sm font-body transition-colors" style="color:var(--t2);">Trajetória</a>
+      <a href="#skills"     class="nav-link text-sm font-body transition-colors" style="color:var(--t2);">Skills</a>
+      <a href="#projetos"   class="nav-link text-sm font-body transition-colors" style="color:var(--t2);">Projetos</a>
+    </div>
 
-                <a href="https://instagram.com/mouraa_gabriel" class="apresentacao_conteudo_links_botao"> 
-                <img src="./assets/instagram.png" alt="Icone Instagram"> Instagram</a>
+    <div class="flex items-center gap-3">
+      <a href="#contato" class="hidden md:inline-flex btn-primary px-4 py-2 rounded-lg text-sm font-heading items-center gap-1.5">
+        Contato
+      </a>
+      <button id="mob-btn" class="md:hidden transition-colors" style="color:var(--t2);">
+        <svg id="ico-open"  class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="ico-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
 
-                <a href="https://github.com/Gabs-Moura" class="apresentacao_conteudo_links_botao">
-                <img src="./assets/github.png" alt="Icone Github"> Github</a>
+  <div id="mob-menu" class="mob-menu md:hidden flex-col gap-1 px-6 pb-5 border-b" style="background:var(--surface); border-color:var(--border);">
+    <a href="#sobre"      class="py-2.5 text-sm font-body block transition-colors" style="color:var(--t2);">Sobre</a>
+    <a href="#trajetoria" class="py-2.5 text-sm font-body block transition-colors" style="color:var(--t2);">Trajetória</a>
+    <a href="#skills"     class="py-2.5 text-sm font-body block transition-colors" style="color:var(--t2);">Skills</a>
+    <a href="#projetos"   class="py-2.5 text-sm font-body block transition-colors" style="color:var(--t2);">Projetos</a>
+    <a href="#contato"    class="py-2.5 text-sm font-body block transition-colors" style="color:var(--purple-l);">Contato</a>
+  </div>
+</nav>
 
-                <a href="https://www.linkedin.com/in/gabriel-moura-9843b1235/" class="apresentacao_conteudo_links_botao"> 
-                    <img src="./assets/linkedin.png" alt="Icone Linkedin"> Linkedin</a>
+
+<!-- ════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section id="hero" class="relative min-h-screen flex items-center hero-grid overflow-hidden">
+
+  <div class="absolute top-16 right-0 w-[640px] h-[640px] orb-purple a-pglow pointer-events-none"></div>
+  <div class="absolute bottom-0 -left-20 w-[480px] h-[480px] orb-blue a-pglow2 pointer-events-none"></div>
+
+  <div class="relative max-w-6xl mx-auto px-6 pt-28 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+
+    <!-- Left -->
+    <div>
+      <div class="a-fu1 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono mb-7 border" style="background:var(--surface); border-color:var(--border); color:var(--purple-l);">
+        <span class="w-1.5 h-1.5 rounded-full" style="background:var(--purple-l);"></span>
+        C6 Bank · Engenheiro de Dados Jr.
+      </div>
+
+      <h1 class="a-fu2 font-heading text-5xl md:text-6xl font-extrabold leading-[1.08] tracking-tight mb-6">
+        Construo <span class="g-text">pipelines</span><br>
+        que movem<br><span class="g-text-blue">dados em escala</span>
+      </h1>
+
+      <p class="a-fu3 font-body text-lg leading-relaxed mb-9 max-w-lg" style="color:var(--t2);">
+        Engenheiro de Dados no <strong style="color:var(--purple-l);">C6 Bank</strong>, com experiência em 
+        <strong style="color:var(--purple-l);">Google Cloud Platform</strong>. Projeto e opero pipelines
+        de dados em produção que alimentam decisões críticas de negócio em escala.
+      </p>
+
+      <div class="a-fu4 flex flex-wrap gap-4">
+        <a href="#projetos" class="btn-primary px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0l-7-7m7 7l-7 7"/></svg>
+          Ver Projetos
+        </a>
+        <a href="https://github.com/Gabs-Moura" target="_blank" rel="noopener" class="btn-ghost px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/gabriel-moura-souza/" target="_blank" rel="noopener" class="btn-ghost px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: decorative viz -->
+    <div class="hidden lg:flex justify-center items-center a-fl">
+      <div class="relative w-[380px] h-[380px]">
+        <div class="absolute inset-0 rounded-full a-spin" style="border:1px solid rgba(26,45,79,.8);"></div>
+        <div class="absolute inset-10 rounded-full" style="border:1px solid rgba(124,58,237,.2);"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="g-border rounded-2xl flex flex-col items-center justify-center p-6 w-36 h-36">
+            <svg class="w-11 h-11 mb-2" style="color:var(--purple-l);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+            </svg>
+            <span class="text-xs font-mono" style="color:var(--t2);">GCP</span>
+          </div>
+        </div>
+        <div class="absolute top-4 right-4 skill-badge px-3 py-1.5 rounded-lg text-xs font-mono a-float"  style="color:var(--purple-l);">BigQuery</div>
+        <div class="absolute bottom-8 right-2 skill-badge px-3 py-1.5 rounded-lg text-xs font-mono a-float2" style="color:var(--blue-l);">Dataflow</div>
+        <div class="absolute bottom-4 left-4 skill-badge px-3 py-1.5 rounded-lg text-xs font-mono a-float3" style="color:var(--green);">Python</div>
+        <div class="absolute top-10 left-0 skill-badge px-3 py-1.5 rounded-lg text-xs font-mono a-float4" style="color:var(--amber);">Airflow</div>
+        <div class="absolute top-1/2 left-0  w-2 h-2 rounded-full -translate-y-1/2" style="background:var(--purple);"></div>
+        <div class="absolute top-0  left-1/2 w-2 h-2 rounded-full -translate-x-1/2" style="background:var(--blue);"></div>
+        <div class="absolute top-1/2 right-0 w-2 h-2 rounded-full -translate-y-1/2" style="background:var(--green);"></div>
+        <div class="absolute bottom-0 left-1/2 w-2 h-2 rounded-full -translate-x-1/2" style="background:var(--amber);"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style="color:var(--t3);">
+    <span class="text-xs font-mono">scroll</span>
+    <div class="w-px h-8" style="background:linear-gradient(to bottom, var(--t3), transparent);"></div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     SOBRE
+════════════════════════════════════════════ -->
+<section id="sobre" class="py-24 border-t" style="border-color:var(--border);">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+      <div class="reveal">
+        <p class="s-tag mb-3">// sobre mim</p>
+        <h2 class="font-heading text-4xl font-bold leading-tight mb-6" style="color:var(--t1);">
+          Da TI ao coração da<br><span class="g-text">Engenharia de Dados</span>
+        </h2>
+        <div class="space-y-4 font-body text-base leading-relaxed" style="color:var(--t2);">
+          <p>
+            Sou Gabriel Moura, Engenheiro de Dados Júnior no
+            <strong style="color:var(--t1);">C6 Bank</strong> e graduando em Engenharia de Computação
+            pela <strong style="color:var(--t1);">FIAP</strong> (conclusão em dez/2026).
+          </p>
+          <p>
+            Minha trajetória passou intencionalmente por infraestrutura de TI no
+            <strong style="color:var(--t1);">Centro de Excelência Votorantim</strong> antes de pivotar
+            para engenharia de dados no C6 Bank, onde opero pipelines de produção com
+            <strong style="color:var(--purple-l);">GCP e Airflow</strong>, integrando fontes
+            heterogêneas como bancos relacionais, MongoDB e Salesforce.
+          </p>
+          <p>
+            Em menos de dois anos no C6 Bank, fui reconhecido <strong style="color:var(--t1);">três vezes consecutivas</strong> com o
+            <strong style="color:var(--t1);">Prêmio Catalise</strong>,no último ciclo, pelos três pilares em simultâneo: Autocrítica, Frescobol e Bom Humor.
+            Reflexo de protagonismo, trabalho em time e leveza na jornada.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal grid grid-cols-2 gap-4">
+        <div class="stat-card rounded-2xl p-7 text-center">
+          <div class="text-4xl font-bold font-heading g-text mb-1">3+</div>
+          <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Anos de exp. profissional</div>
+        </div>
+        <div class="stat-card rounded-2xl p-7 text-center">
+          <div class="text-4xl font-bold font-heading g-text mb-1">9+</div>
+          <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Certificações técnicas</div>
+        </div>
+        <div class="stat-card rounded-2xl p-7 text-center">
+          <div class="text-4xl font-bold font-heading g-text mb-1">10+</div>
+          <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Serviços GCP utilizados</div>
+        </div>
+        <div class="stat-card rounded-2xl p-7 text-center">
+          <div class="text-4xl font-bold font-heading g-text-blue mb-1">3x</div>
+          <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Prêmio Catalise · C6 Bank</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     TRAJETÓRIA
+════════════════════════════════════════════ -->
+<section id="trajetoria" class="py-24 border-y" style="background:rgba(10,15,30,.6); border-color:var(--border);">
+  <div class="max-w-4xl mx-auto px-6">
+
+    <div class="text-center mb-16 reveal">
+      <p class="s-tag mb-3">// trajetória profissional</p>
+      <h2 class="font-heading text-4xl font-bold leading-tight" style="color:var(--t1);">
+        Uma jornada de <span class="g-text">evolução contínua</span>
+      </h2>
+      <p class="font-body mt-4" style="color:var(--t2);">Do primeiro estágio à efetivação no C6 Bank</p>
+    </div>
+
+    <div class="relative">
+      <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 tl-line"></div>
+
+      <!-- Entry 1: FIAP -->
+      <div class="reveal relative grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+        <div class="md:text-right md:pr-14 flex flex-col justify-center">
+          <span class="inline-block text-xs font-mono mb-1.5" style="color:var(--t3);">2022</span>
+          <h3 class="font-heading text-lg font-bold mb-2" style="color:var(--t1);">Engenharia de Computação · FIAP</h3>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            Início da graduação na FIAP com foco em computação, programação e infraestrutura.
+            Primeiros contatos com Python, SQL e fundamentos de cloud computing.
+          </p>
+        </div>
+        <div class="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full tl-dot z-10"></div>
+        <div class="md:pl-14 flex items-center">
+          <div class="tl-card rounded-xl p-4 w-full">
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--purple-l);  border-color:var(--border);">Python</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--blue-l);    border-color:var(--border);">SQL</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--fiap-pink); border-color:var(--border);">FIAP · 2022–2026</span>
             </div>
-            
-        </section>
+          </div>
+        </div>
+      </div>
 
-        <img src="./assets/gabriel desing.png" alt="Foto Gabriel Moura" class="imagem">
-        
-    </main>
+      <!-- Entry 2: Votorantim -->
+      <div class="reveal relative grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+        <div class="md:text-right md:pr-14 flex flex-col justify-center order-2 md:order-1">
+          <div class="tl-card rounded-xl p-4 w-full">
+            <div class="flex flex-wrap gap-2 md:justify-end">
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--amber);    border-color:var(--border);">SAP</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--blue-l);   border-color:var(--border);">Microsoft</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2);       border-color:var(--border);">Autodesk</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--green);    border-color:var(--border);">Gestão de Projetos</span>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full tl-dot z-10"></div>
+        <div class="md:pl-14 flex flex-col justify-center order-1 md:order-2">
+          <span class="inline-block text-xs font-mono mb-1" style="color:var(--t3);">Ago 2023 — Jul 2024 · 1 ano</span>
+          <span class="inline-block text-xs font-mono mb-2" style="color:var(--purple-l);">Estágio · Infraestrutura de TI</span>
+          <h3 class="font-heading text-lg font-bold mb-2" style="color:var(--t1);">Centro de Excelência Votorantim</h3>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            Participação no projeto SAM (Microsoft &amp; Autodesk), monitoramento de treinamentos de TI
+            para todos os funcionários, gerenciamento de ambientes SAP e Cloud.
+            Liderança de auditoria interna — base sólida em infraestrutura e gestão que
+            pavimentou a transição intencional para dados.
+          </p>
+        </div>
+      </div>
 
-    <footer class="rodape">
-        <p>Desenvolvido por Gabriel Moura</p>
-    </footer>
+      <!-- Entry 3: C6 Bank Estágio -->
+      <div class="reveal relative grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+        <div class="md:text-right md:pr-14 flex flex-col justify-center">
+          <span class="inline-block text-xs font-mono mb-1" style="color:var(--t3);">Ago 2024 — Dez 2025 · 1 ano 5 meses</span>
+          <span class="inline-block text-xs font-mono mb-2" style="color:var(--purple-l);">Estágio · Engenharia de Dados</span>
+          <h3 class="font-heading text-lg font-bold mb-2" style="color:var(--t1);">C6 Bank</h3>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            Desenvolvimento e manutenção de pipelines de dados de múltiplas fontes (bancos relacionais,
+            MongoDB, Salesforce e arquivos). Uso de Dataflow, Pub/Sub, BigQuery e Transfer Jobs.
+            Orquestração com Apache Airflow via Cloud Composer. Contribuição na evolução da
+            plataforma de dados. Premiado com o <strong style="color:var(--t1);">Catalise Autorcracia</strong>.
+          </p>
+        </div>
+        <div class="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full tl-dot z-10"></div>
+        <div class="md:pl-14 flex items-center">
+          <div class="tl-card rounded-xl p-4 w-full">
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--amber);    border-color:var(--border);">Dataflow</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--purple-l); border-color:var(--border);">BigQuery</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--blue-l);   border-color:var(--border);">Pub/Sub</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--green);    border-color:var(--border);">Airflow</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2);       border-color:var(--border);">MongoDB</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <!-- Entry 4: C6 Bank Efetivação -->
+      <div class="reveal relative grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="md:text-right md:pr-14 flex flex-col justify-center order-2 md:order-1">
+          <div class="rounded-xl p-4 w-full" style="background:var(--card); border:1px solid rgba(124,58,237,.4);">
+            <div class="flex flex-wrap gap-2 md:justify-end">
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--blue-l);    border-color:var(--border);">GCP</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--green);     border-color:var(--border);">Python</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--amber);     border-color:var(--border);">Dataflow</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--fiap-pink); border-color:var(--border);">Airflow</span>
+              <span class="px-2 py-1 text-xs font-mono rounded border" style="background:var(--surface); color:var(--purple-l);  border-color:var(--border);">BigQuery</span>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full tl-dot-main z-10"></div>
+        <div class="md:pl-14 flex flex-col justify-center order-1 md:order-2">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="text-xs font-mono" style="color:var(--t3);">Dez 2025 — Presente</span>
+            <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:rgba(16,185,129,.15); color:var(--green); border-color:rgba(16,185,129,.3);">Efetivado ✓</span>
+          </div>
+          <span class="inline-block text-xs font-mono mb-2" style="color:var(--purple-l);">Engenheiro de Dados Júnior · Tempo Integral</span>
+          <h3 class="font-heading text-xl font-bold mb-2" style="color:var(--t1);">C6 Bank</h3>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            Efetivado após 1 ano e 5 meses de estágio. Responsável por arquitetar e manter pipelines
+            de dados críticos na plataforma do C6 Bank, garantindo disponibilidade, organização e
+            confiabilidade das informações. Premiado com o <strong style="color:var(--t1);">Prêmio Catalise 2x pelo 3º semestre consecutivo</strong>
+            — primeiro por Autorcracia e depois pelos três pilares em simultâneo: Autocrítica, Frescobol e Bom Humor.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     TECH STACK
+════════════════════════════════════════════ -->
+<section id="skills" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="text-center mb-14 reveal">
+      <p class="s-tag mb-3">// stack técnico</p>
+      <h2 class="font-heading text-4xl font-bold leading-tight" style="color:var(--t1);">
+        Tecnologias que <span class="g-text">domino</span>
+      </h2>
+      <p class="font-body mt-4" style="color:var(--t2);">Ferramentas e plataformas do meu dia a dia no C6 Bank</p>
+    </div>
+
+    <!-- GCP -->
+    <div class="reveal mb-10">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-1 h-5 rounded-full" style="background:var(--purple);"></div>
+        <h3 class="font-heading text-xs font-semibold uppercase tracking-widest" style="color:var(--purple-l);">Google Cloud Platform</h3>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>📊</span><span class="text-sm font-mono" style="color:var(--t1);">BigQuery</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🌊</span><span class="text-sm font-mono" style="color:var(--t1);">Dataflow</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🎼</span><span class="text-sm font-mono" style="color:var(--t1);">Cloud Composer</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>📦</span><span class="text-sm font-mono" style="color:var(--t1);">Cloud Storage</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>⚡</span><span class="text-sm font-mono" style="color:var(--t1);">Pub/Sub</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🔁</span><span class="text-sm font-mono" style="color:var(--t1);">Transfer Jobs</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🚀</span><span class="text-sm font-mono" style="color:var(--t1);">Cloud Run</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🔧</span><span class="text-sm font-mono" style="color:var(--t1);">Cloud Functions</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🔐</span><span class="text-sm font-mono" style="color:var(--t1);">IAM &amp; Security</span></div>
+      </div>
+    </div>
+
+    <!-- Data Engineering -->
+    <div class="reveal mb-10">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-1 h-5 rounded-full" style="background:var(--blue);"></div>
+        <h3 class="font-heading text-xs font-semibold uppercase tracking-widest" style="color:var(--blue-l);">Data Engineering</h3>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🐍</span><span class="text-sm font-mono" style="color:var(--t1);">Python</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🗄️</span><span class="text-sm font-mono" style="color:var(--t1);">SQL</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🔄</span><span class="text-sm font-mono" style="color:var(--t1);">Apache Airflow</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🔬</span><span class="text-sm font-mono" style="color:var(--t1);">Apache Beam</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🍃</span><span class="text-sm font-mono" style="color:var(--t1);">MongoDB</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🐹</span><span class="text-sm font-mono" style="color:var(--t1);">Go (Golang)</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🐼</span><span class="text-sm font-mono" style="color:var(--t1);">Pandas</span></div>
+      </div>
+    </div>
+
+    <!-- DevOps -->
+    <div class="reveal mb-10">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-1 h-5 rounded-full" style="background:var(--green);"></div>
+        <h3 class="font-heading text-xs font-semibold uppercase tracking-widest" style="color:#34D399;">DevOps &amp; Infra</h3>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🐳</span><span class="text-sm font-mono" style="color:var(--t1);">Docker</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🔁</span><span class="text-sm font-mono" style="color:var(--t1);">Git / GitHub</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>⚙️</span><span class="text-sm font-mono" style="color:var(--t1);">CI/CD</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🌿</span><span class="text-sm font-mono" style="color:var(--t1);">Terraform</span></div>
+      </div>
+    </div>
+
+    <!-- Databases -->
+    <div class="reveal mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-1 h-5 rounded-full" style="background:var(--amber);"></div>
+        <h3 class="font-heading text-xs font-semibold uppercase tracking-widest" style="color:#FBBF24;">Bancos de Dados</h3>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🐘</span><span class="text-sm font-mono" style="color:var(--t1);">PostgreSQL</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🍃</span><span class="text-sm font-mono" style="color:var(--t1);">MongoDB</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>🔥</span><span class="text-sm font-mono" style="color:var(--t1);">Firestore</span></div>
+        <div class="skill-badge px-4 py-2.5 rounded-xl flex items-center gap-2"><span>⚡</span><span class="text-sm font-mono" style="color:var(--t1);">Redis</span></div>
+      </div>
+    </div>
+
+    <!-- Certificações -->
+    <div class="reveal">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-1 h-5 rounded-full" style="background:var(--red);"></div>
+        <h3 class="font-heading text-xs font-semibold uppercase tracking-widest" style="color:#FCA5A5;">Certificações</h3>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--purple);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Data Engineering on Google Cloud</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Out 2024</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--purple);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Data Warehousing with BigQuery</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Out 2024</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--purple);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Cloud Composer &amp; Airflow</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Out 2024</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--purple);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Serverless Data Processing with Dataflow</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Dez 2024</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--purple);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Serverless Data Processing with Golang &amp; Dataflow</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Nov 2024</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--purple);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Preparing for Your Professional Data Engineer Journey</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Dez 2024</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--purple);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">GCP Fundamentals: Big Data &amp; Machine Learning</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Set 2024</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--fiap-pink);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Engenharia de Software</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Ago 2025</div></div>
+        </div>
+        <div class="tl-card rounded-xl px-4 py-3 flex items-start gap-3">
+          <div class="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style="background:var(--fiap-pink);"></div>
+          <div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Design Thinking</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Ago 2025</div></div>
+        </div>
+      </div>
+      <div class="mt-4 text-center">
+        <button id="cert-open-btn" class="cert-btn">Ver todos os certificados →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     PROJETOS
+════════════════════════════════════════════ -->
+<section id="projetos" class="py-24 border-y" style="background:rgba(10,15,30,.6); border-color:var(--border);">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="text-center mb-14 reveal">
+      <p class="s-tag mb-3">// portfólio de projetos</p>
+      <h2 class="font-heading text-4xl font-bold leading-tight" style="color:var(--t1);">
+        Casos de Uso <span class="g-text">em produção</span>
+      </h2>
+      <p class="font-body mt-4" style="color:var(--t2);">Problemas reais · Arquiteturas reais · Impactos mensuráveis</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <article class="reveal proj-card rounded-2xl p-6 flex flex-col">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-2.5 py-1 text-xs font-mono rounded-lg border" style="background:rgba(124,58,237,.15); color:var(--purple-l); border-color:rgba(124,58,237,.3);">Batch Pipeline · C6 Bank</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded" style="color:var(--t3); background:var(--surface);">🔒 prod</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-5" style="color:var(--t1);">Pipeline de Ingestão Multi-Source</h3>
+        <div class="flex-1 space-y-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--red);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--red);">Problema</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Dados de fontes heterogêneas (bancos relacionais, MongoDB, Salesforce e arquivos de diferentes formatos) chegando sem padronização, comprometendo a confiabilidade da plataforma de dados.</p>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--purple-l);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--purple-l);">Solução Arquitetural</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Pipeline batch com Dataflow para transformações padronizadas, Transfer Jobs para fluxos estruturados e BigQuery como destino analítico centralizado. Conectores customizados em Python para MongoDB e Salesforce.</p>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--green);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--green);">Impacto</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Consolidação de múltiplas fontes em plataforma única confiável, com rastreabilidade de cada registro da origem ao destino analítico.</p>
+          </div>
+        </div>
+        <div class="mt-5 pt-5 flex flex-wrap gap-2" style="border-top:1px solid var(--border);">
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Dataflow</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">BigQuery</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Python</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">MongoDB</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Salesforce</span>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="reveal proj-card rounded-2xl p-6 flex flex-col">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-2.5 py-1 text-xs font-mono rounded-lg border" style="background:rgba(59,130,246,.15); color:var(--blue-l); border-color:rgba(59,130,246,.3);">Streaming · C6 Bank</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded" style="color:var(--t3); background:var(--surface);">🔒 prod</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-5" style="color:var(--t1);">Pipeline de Dados em Tempo Real</h3>
+        <div class="flex-1 space-y-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--red);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--red);">Problema</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Eventos gerados em produção precisavam ser processados e disponibilizados com baixa latência para alimentar sistemas downstream, sem o overhead de processos batch periódicos.</p>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--purple-l);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--purple-l);">Solução Arquitetural</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Pub/Sub como message broker para desacoplamento de produtores e consumidores. Dataflow (Apache Beam) para processamento em streaming. BigQuery Streaming Inserts para persistência analítica em tempo real.</p>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--green);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--green);">Impacto</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Dados disponíveis para consumo em segundos após a geração, habilitando decisões e alertas em tempo real nos sistemas do banco.</p>
+          </div>
+        </div>
+        <div class="mt-5 pt-5 flex flex-wrap gap-2" style="border-top:1px solid var(--border);">
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Pub/Sub</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Dataflow</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Apache Beam</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">BigQuery</span>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="reveal proj-card rounded-2xl p-6 flex flex-col">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-2.5 py-1 text-xs font-mono rounded-lg border" style="background:rgba(16,185,129,.15); color:#34D399; border-color:rgba(16,185,129,.3);">Orquestração · C6 Bank</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded" style="color:var(--t3); background:var(--surface);">🔒 prod</span>
+        </div>
+        <h3 class="font-heading text-xl font-bold mb-5" style="color:var(--t1);">Orquestração de Workflows com Airflow</h3>
+        <div class="flex-1 space-y-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--red);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--red);">Problema</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Múltiplos pipelines com dependências complexas entre tarefas sendo gerenciados de forma descentralizada, sem visibilidade de falhas, retries ou histórico de execuções.</p>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--purple-l);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--purple-l);">Solução Arquitetural</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Centralização no Cloud Composer (Airflow gerenciado na GCP). DAGs em Python definindo dependências, schedules e políticas de retry. Integração com alertas via Cloud Monitoring.</p>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--green);"></div>
+              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--green);">Impacto</span>
+            </div>
+            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Visibilidade centralizada de todos os workflows, detecção proativa de falhas e redução no tempo de resposta a incidentes em pipelines críticos.</p>
+          </div>
+        </div>
+        <div class="mt-5 pt-5 flex flex-wrap gap-2" style="border-top:1px solid var(--border);">
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Cloud Composer</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Airflow</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Python</span>
+          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">GCP Monitoring</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="reveal text-center mt-12">
+      <a href="https://github.com/Gabs-Moura" target="_blank" rel="noopener"
+         class="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-heading">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        Ver repositórios no GitHub
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     CONTATO
+════════════════════════════════════════════ -->
+<section id="contato" class="py-24">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <div class="reveal">
+      <p class="s-tag mb-3">// contato</p>
+      <h2 class="font-heading text-4xl font-bold leading-tight mb-4" style="color:var(--t1);">
+        Vamos construir algo<br><span class="g-text">extraordinário?</span>
+      </h2>
+      <p class="font-body text-lg leading-relaxed mb-12 max-w-xl mx-auto" style="color:var(--t2);">
+        Aberto a conversas sobre engenharia de dados, oportunidades e colaborações. Pode falar!
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+        <a href="mailto:gabrielmourasouza@hotmail.com" class="contact-link rounded-xl p-5 flex flex-col items-center gap-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(124,58,237,.15); border:1px solid rgba(124,58,237,.3);">
+            <svg class="w-5 h-5" style="color:var(--purple-l);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-heading font-semibold mb-0.5" style="color:var(--t1);">Email</div>
+            <div class="text-xs font-mono" style="color:var(--t2);">gabrielmourasouza@hotmail.com</div>
+          </div>
+        </a>
+
+        <a href="https://www.linkedin.com/in/gabriel-moura-souza/" target="_blank" rel="noopener" class="contact-link rounded-xl p-5 flex flex-col items-center gap-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(59,130,246,.15); border:1px solid rgba(59,130,246,.3);">
+            <svg class="w-5 h-5" style="color:var(--blue-l);" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-heading font-semibold mb-0.5" style="color:var(--t1);">LinkedIn</div>
+            <div class="text-xs font-mono" style="color:var(--t2);">gabriel-moura-souza</div>
+          </div>
+        </a>
+
+        <a href="https://github.com/Gabs-Moura" target="_blank" rel="noopener" class="contact-link rounded-xl p-5 flex flex-col items-center gap-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(241,245,249,.08); border:1px solid rgba(241,245,249,.12);">
+            <svg class="w-5 h-5" style="color:var(--t1);" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-heading font-semibold mb-0.5" style="color:var(--t1);">GitHub</div>
+            <div class="text-xs font-mono" style="color:var(--t2);">Gabs-Moura</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="border-t py-8" style="border-color:var(--border);">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <div class="w-6 h-6 rounded flex items-center justify-center text-white text-xs font-bold font-heading" style="background:var(--purple);">GM</div>
+      <span class="text-xs font-body" style="color:var(--t3);">Gabriel Moura · Engenheiro de Dados · C6 Bank</span>
+    </div>
+    <span class="text-xs font-mono" style="color:var(--t3);">Feito com <span style="color:var(--red);">♥</span> e muito Python · 2026</span>
+    <div class="flex gap-4">
+      <a href="https://github.com/Gabs-Moura" target="_blank" rel="noopener" style="color:var(--t3);" onmouseover="this.style.color='var(--t1)'" onmouseout="this.style.color='var(--t3)'">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/gabriel-moura-souza/" target="_blank" rel="noopener" style="color:var(--t3);" onmouseover="this.style.color='var(--t1)'" onmouseout="this.style.color='var(--t3)'">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════════
+     JS
+════════════════════════════════════════════ -->
+<!-- ════ MODAL: TODOS OS CERTIFICADOS ════ -->
+<div id="cert-modal" role="dialog" aria-modal="true" aria-labelledby="cert-modal-title">
+  <div id="cert-panel" class="p-7 md:p-9">
+    <div class="flex items-center justify-between mb-7">
+      <h2 id="cert-modal-title" class="font-heading text-lg font-bold" style="color:var(--t1);">Todos os Certificados</h2>
+      <button id="cert-close-btn" aria-label="Fechar" class="w-8 h-8 flex items-center justify-center rounded-lg text-xl transition-colors" style="color:var(--t2); background:var(--card);">&times;</button>
+    </div>
+
+    <!-- GCP & Data Engineering -->
+    <div class="mb-7">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-1 h-4 rounded-full" style="background:var(--purple);"></div>
+        <span class="cert-group-title" style="color:var(--purple);">GCP &amp; Data Engineering · Arki1</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--purple);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Data Engineering on Google Cloud</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Out 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--purple);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Data Warehousing with BigQuery</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Out 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--purple);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Cloud Composer &amp; Airflow</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Out 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--purple);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Serverless Data Processing with Dataflow</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Dez 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--purple);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Serverless Data Processing with Golang &amp; Dataflow</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Nov 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--purple);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Preparing for Your Professional Data Engineer Journey</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Dez 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--purple);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">GCP Fundamentals: Big Data &amp; Machine Learning</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Arki1 · Set 2024</div></div></div>
+      </div>
+    </div>
+
+    <!-- FIAP -->
+    <div class="mb-7">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-1 h-4 rounded-full" style="background:var(--fiap-pink);"></div>
+        <span class="cert-group-title" style="color:var(--fiap-pink);">FIAP</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Engenharia de Software</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Ago 2025</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Design Thinking</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Ago 2025</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Algoritmos: Aprenda a programar</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Abr 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Learn to Program</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Ago 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Gestão de Infraestrutura de TI</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Set 2022</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Resolvendo Problemas com Matemática</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Set 2022</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Estruturas de Computadores</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Abr 2022</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Matemática</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Ago 2022</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--fiap-pink);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Formação Social e Sustentabilidade</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">FIAP · Mar 2022</div></div></div>
+      </div>
+    </div>
+
+    <!-- Alura: Linguagens -->
+    <div class="mb-7">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-1 h-4 rounded-full" style="background:var(--blue);"></div>
+        <span class="cert-group-title" style="color:var(--blue-l);">Linguagens de Programação · Alura</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Python: entendendo a Orientação a Objetos</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Ago 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Go: a linguagem do Google</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Ago 2024</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Formação Aprenda Java com Orientação a Objetos</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mai 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Java: consumindo API, gravando arquivos e lidando com erros</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mai 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Java: trabalhando com listas e coleções de dados</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mai 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Java: aplicando a Orientação a Objetos</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Abr 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Java: criando a sua primeira aplicação</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Abr 2023</div></div></div>
+      </div>
+    </div>
+
+    <!-- Alura: Fundamentos -->
+    <div class="mb-7">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-1 h-4 rounded-full" style="background:var(--t3);"></div>
+        <span class="cert-group-title" style="color:var(--t2);">Fundamentos · Alura</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Formação A partir do zero: iniciante em programação</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Abr 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Linux I: conhecendo e utilizando o terminal</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mar 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">HTML e CSS: responsividade e publicação de projetos</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mar 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">HTML e CSS: Classes, posicionamento e Flexbox</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mar 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">HTML e CSS: cabeçalho, footer e variáveis CSS</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mar 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">HTML e CSS: ambientes de desenvolvimento e tags</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Mar 2023</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Lógica de programação: Pong e Javascript</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Nov 2022</div></div></div>
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--t3);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">Lógica de programação: laços e listas com Javascript</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Alura · Nov 2022</div></div></div>
+      </div>
+    </div>
+
+    <!-- Idiomas -->
+    <div>
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-1 h-4 rounded-full" style="background:var(--green);"></div>
+        <span class="cert-group-title" style="color:var(--green);">Idiomas</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="tl-card rounded-xl px-4 py-2.5 flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--green);"></div><div><div class="text-xs font-mono font-medium" style="color:var(--t1);">First Certificate in English (FCE)</div><div class="text-xs font-body mt-0.5" style="color:var(--t3);">Cambridge English · Dez 2021</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('nav-scrolled', window.scrollY > 24);
+  }, { passive: true });
+
+  const mobBtn   = document.getElementById('mob-btn');
+  const mobMenu  = document.getElementById('mob-menu');
+  const icoOpen  = document.getElementById('ico-open');
+  const icoClose = document.getElementById('ico-close');
+
+  mobBtn.addEventListener('click', () => {
+    const open = mobMenu.classList.toggle('open');
+    icoOpen.classList.toggle('hidden', open);
+    icoClose.classList.toggle('hidden', !open);
+  });
+  mobMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobMenu.classList.remove('open');
+      icoOpen.classList.remove('hidden');
+      icoClose.classList.add('hidden');
+    });
+  });
+
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 80}ms`;
+    revealObs.observe(el);
+  });
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--purple-l)' : 'var(--t2)';
+    });
+  }, { passive: true });
+
+  const certModal  = document.getElementById('cert-modal');
+  const openCertModal  = () => { certModal.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const closeCertModal = () => { certModal.classList.remove('open'); document.body.style.overflow = ''; };
+  document.getElementById('cert-open-btn').addEventListener('click', openCertModal);
+  document.getElementById('cert-close-btn').addEventListener('click', closeCertModal);
+  certModal.addEventListener('click', e => { if (e.target === certModal) closeCertModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCertModal(); });
+</script>
 </body>
 </html>
