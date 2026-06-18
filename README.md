@@ -1,6 +1,6 @@
 # Gabriel Moura · Portfólio
 
-Portfólio pessoal de Gabriel Moura, Engenheiro de Dados com experiência emGoogle Cloud Platform.
+Portfólio pessoal de Gabriel Moura, Engenheiro de Dados com experiência em Google Cloud Platform.
 
 **Live:** https://gabriel-moura-portfolio.vercel.app/
 
