@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gabriel Moura · Data Engineer</title>
-  <meta name="description" content="Engenheiro de Dados Júnior no C6 Bank, com experiência em Google Cloud Platform, Python e pipelines de dados em larga escala.">
+  <meta name="description" content="Gabriel Moura, engenheiro de dados no C6 Bank e criador do DataDex, portal interno que automatiza o trabalho do time de dados.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,6 +43,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    :focus-visible { outline: 2px solid var(--purple-l); outline-offset: 3px; }
     body {
       background: var(--bg);
       color: var(--t1);
@@ -141,29 +142,24 @@
       transform: translateY(-2px);
     }
 
-    /* ── Project card ── */
-    .proj-card {
+    /* ── DataDex ── */
+    .datadex-case {
+      border: 1px solid rgba(124, 58, 237, .4);
       background: var(--card);
-      border: 1px solid var(--border);
-      transition: all .35s ease;
-      position: relative;
-      overflow: hidden;
     }
-    .proj-card::before {
-      content: '';
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--purple), var(--blue));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .35s ease;
+    .datadex-feature {
+      grid-template-columns: minmax(0, 1fr);
     }
-    .proj-card:hover::before { transform: scaleX(1); }
-    .proj-card:hover {
-      border-color: rgba(124,58,237,.35);
-      transform: translateY(-5px);
-      box-shadow: 0 24px 48px rgba(0,0,0,.4), 0 0 48px rgba(124,58,237,.07);
+    .datadex-impact {
+      background: radial-gradient(ellipse at top right, rgba(124, 58, 237, .2), transparent 75%), var(--surface);
+      border-top: 1px solid var(--border);
+    }
+    @media (min-width: 1024px) {
+      .datadex-feature { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+      .datadex-impact {
+        border-top: 0;
+        border-left: 1px solid var(--border);
+      }
     }
 
     /* ── Timeline ── */
@@ -192,6 +188,7 @@
     .contact-link {
       background: var(--card);
       border: 1px solid var(--border);
+      overflow-wrap: anywhere;
       transition: all .25s ease;
     }
     .contact-link:hover {
@@ -232,19 +229,39 @@
     .a-spin   { animation: spinSlow 28s linear infinite; }
 
     /* mobile menu */
-    .mob-menu { display:none; }
-    .mob-menu.open { display:flex; }
+    #mob-menu[hidden] { display:none; }
+    #mob-btn[aria-expanded="false"] #ico-close,
+    #mob-btn[aria-expanded="true"] #ico-open { display:none; }
+    @media (max-width: 767px) {
+      #navbar { background:var(--bg); }
+      #mob-menu { max-height:calc(100dvh - 4.75rem); overflow-y:auto; }
+    }
 
     /* cert modal */
-    #cert-modal { display:none; position:fixed; inset:0; z-index:9999; background:rgba(8,12,20,.88); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1.25rem; }
-    #cert-modal.open { display:flex; }
-    #cert-panel { background:var(--surface); border:1px solid var(--border); border-radius:1.25rem; max-width:780px; width:100%; max-height:88vh; overflow-y:auto; }
-    #cert-panel::-webkit-scrollbar { width:4px; }
-    #cert-panel::-webkit-scrollbar-track { background:transparent; }
-    #cert-panel::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+    #cert-modal {
+      margin:auto;
+      width:min(780px, calc(100% - 2rem));
+      max-height:calc(100vh - 2rem);
+      max-height:calc(100dvh - 2rem);
+      overflow:hidden;
+      background:var(--surface);
+      color:var(--t1);
+      border:1px solid var(--border);
+      border-radius:1.25rem;
+    }
+    #cert-modal[open] { display:flex; flex-direction:column; }
+    #cert-modal::backdrop { background:rgba(8,12,20,.88); backdrop-filter:blur(8px); }
+    #cert-panel { min-height:0; overflow-y:auto; overscroll-behavior:contain; }
+    body:has(#cert-modal[open]) { overflow:hidden; }
     .cert-group-title { font-size:.65rem; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.1em; }
-    .cert-btn { font-size:.7rem; font-family:'JetBrains Mono',monospace; color:var(--t2); border:1px solid var(--border); border-radius:.625rem; padding:.4rem 1rem; background:transparent; cursor:pointer; transition:color .2s,border-color .2s; }
+    .cert-btn { font-size:.7rem; font-family:'JetBrains Mono',monospace; color:var(--t2); border:1px solid var(--border); border-radius:.625rem; min-height:44px; padding:.4rem 1rem; background:transparent; cursor:pointer; transition:color .2s,border-color .2s; }
     .cert-btn:hover { color:var(--purple-l); border-color:var(--purple); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto !important; }
+      *, *::before, *::after { animation:none !important; transition:none !important; }
+      .reveal, .a-fu1, .a-fu2, .a-fu3, .a-fu4, .a-fl { opacity:1; transform:none; }
+    }
   </style>
 </head>
 <body>
@@ -271,14 +288,15 @@
       <a href="#contato" class="hidden md:inline-flex btn-primary px-4 py-2 rounded-lg text-sm font-heading items-center gap-1.5">
         Contato
       </a>
-      <button id="mob-btn" class="md:hidden transition-colors" style="color:var(--t2);">
-        <svg id="ico-open"  class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg id="ico-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      <button id="mob-btn" type="button" aria-label="Menu de navegação" aria-controls="mob-menu" aria-expanded="false"
+              class="grid place-items-center w-11 h-11 rounded-lg md:hidden transition-colors" style="color:var(--t2);">
+        <svg id="ico-open"  class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg id="ico-close" class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
   </div>
 
-  <div id="mob-menu" class="mob-menu md:hidden flex-col gap-1 px-6 pb-5 border-b" style="background:var(--surface); border-color:var(--border);">
+  <div id="mob-menu" hidden class="flex flex-col gap-1 px-6 pb-5 border-b md:hidden [&>a]:min-h-[44px]" style="background:var(--surface); border-color:var(--border);">
     <a href="#sobre"      class="py-2.5 text-sm font-body block transition-colors" style="color:var(--t2);">Sobre</a>
     <a href="#trajetoria" class="py-2.5 text-sm font-body block transition-colors" style="color:var(--t2);">Trajetória</a>
     <a href="#skills"     class="py-2.5 text-sm font-body block transition-colors" style="color:var(--t2);">Skills</a>
@@ -305,27 +323,29 @@
         C6 Bank · Engenheiro de Dados Jr.
       </div>
 
-      <h1 class="a-fu2 font-heading text-5xl md:text-6xl font-extrabold leading-[1.08] tracking-tight mb-6">
-        Construo <span class="g-text">pipelines</span><br>
-        que movem<br><span class="g-text-blue">dados em escala</span>
+      <h1 class="a-fu2 font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.08] tracking-tight mb-6">
+        Engenharia de dados e <span class="g-text">automação</span>
       </h1>
 
       <p class="a-fu3 font-body text-lg leading-relaxed mb-9 max-w-lg" style="color:var(--t2);">
-        Engenheiro de Dados no <strong style="color:var(--purple-l);">C6 Bank</strong>, com experiência em 
-        <strong style="color:var(--purple-l);">Google Cloud Platform</strong>. Projeto e opero pipelines
-        de dados em produção que alimentam decisões críticas de negócio em escala.
+        No <strong style="color:var(--purple-l);">C6 Bank</strong>, criei o <strong style="color:var(--purple-l);">DataDex</strong>,
+        portal que centraliza o trabalho do time de dados e automatiza etapas das entregas de pipelines.
       </p>
 
-      <div class="a-fu4 flex flex-wrap gap-4">
-        <a href="#projetos" class="btn-primary px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2">
+      <div class="a-fu4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3 lg:grid lg:max-w-sm">
+        <a href="#projetos" class="btn-primary px-3 sm:px-5 py-3 rounded-xl text-sm font-heading flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0l-7-7m7 7l-7 7"/></svg>
-          Ver Projetos
+          Ver projetos
         </a>
-        <a href="https://github.com/Gabs-Moura" target="_blank" rel="noopener" class="btn-ghost px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2">
+        <a href="assets/gabriel-moura-curriculo.pdf" download class="btn-ghost px-3 sm:px-5 py-3 rounded-xl text-sm font-heading flex items-center justify-center text-center gap-2">
+          <svg class="hidden sm:block w-4 h-4 shrink-0" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></svg>
+          Baixar currículo
+        </a>
+        <a href="https://github.com/Gabs-Moura" target="_blank" rel="noopener" class="btn-ghost px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2 lg:justify-center">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
           GitHub
         </a>
-        <a href="https://www.linkedin.com/in/gabriel-moura-souza/" target="_blank" rel="noopener" class="btn-ghost px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2">
+        <a href="https://www.linkedin.com/in/gabriel-moura-souza/" target="_blank" rel="noopener" class="btn-ghost px-6 py-3 rounded-xl text-sm font-heading flex items-center gap-2 lg:justify-center">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
@@ -391,31 +411,73 @@
           </p>
           <p>
             Em menos de dois anos no C6 Bank, fui reconhecido <strong style="color:var(--t1);">três vezes consecutivas</strong> com o
-            <strong style="color:var(--t1);">Prêmio Catalise</strong>,no último ciclo, pelos três pilares em simultâneo: Autocrítica, Frescobol e Bom Humor.
-            Reflexo de protagonismo, trabalho em time e leveza na jornada.
+            <strong style="color:var(--t1);">Prêmio Catalise</strong>, no último ciclo, pelos três pilares em simultâneo: Autocrítica, Frescobol e Bom Humor.
           </p>
         </div>
       </div>
 
       <div class="reveal grid grid-cols-2 gap-4">
-        <div class="stat-card rounded-2xl p-7 text-center">
+        <div class="stat-card rounded-2xl p-4 sm:p-7 text-center">
           <div class="text-4xl font-bold font-heading g-text mb-1">3+</div>
           <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Anos de exp. profissional</div>
         </div>
-        <div class="stat-card rounded-2xl p-7 text-center">
+        <div class="stat-card rounded-2xl p-4 sm:p-7 text-center">
           <div class="text-4xl font-bold font-heading g-text mb-1">9+</div>
           <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Certificações técnicas</div>
         </div>
-        <div class="stat-card rounded-2xl p-7 text-center">
+        <div class="stat-card rounded-2xl p-4 sm:p-7 text-center">
           <div class="text-4xl font-bold font-heading g-text mb-1">10+</div>
           <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Serviços GCP utilizados</div>
         </div>
-        <div class="stat-card rounded-2xl p-7 text-center">
+        <div class="stat-card rounded-2xl p-4 sm:p-7 text-center">
           <div class="text-4xl font-bold font-heading g-text-blue mb-1">3x</div>
           <div class="text-xs font-body uppercase tracking-wider" style="color:var(--t2);">Prêmio Catalise · C6 Bank</div>
         </div>
       </div>
     </div>
+
+    <section class="mt-16" aria-labelledby="avaliacao-title">
+      <p class="s-tag mb-3">Avaliação 270° · C6 Bank</p>
+      <h3 id="avaliacao-title" class="font-heading text-3xl font-bold leading-tight mb-4">
+        Como meus colegas descrevem <span class="g-text">meu trabalho</span>
+      </h3>
+      <p class="font-body leading-relaxed mb-6" style="color:var(--t2);">
+        Recebi a classificação <strong style="color:var(--t1);">Referência</strong> em Autorcracia,
+        Bom Humor, Desafiar o Status Quo e Escolhemos o Frescobol.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="tl-card rounded-2xl p-5 sm:p-6">
+          <h4 class="font-heading font-bold mb-2">Iniciativa para melhorar processos</h4>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            Os colegas citaram o <a href="#datadex-title" class="underline underline-offset-4" style="color:var(--purple-l);">DataDex</a>
+            como exemplo de como questiono processos que já viraram rotina. Eles destacaram que compartilho as propostas
+            com o time e incorporo feedback para chegar a uma solução que ajude nas entregas.
+          </p>
+        </div>
+        <div class="tl-card rounded-2xl p-5 sm:p-6">
+          <h4 class="font-heading font-bold mb-2">Parceria no dia a dia</h4>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            O time destacou minha disponibilidade para ajudar durante as demandas. Quando algo dá errado,
+            me prontifico a corrigir e peço ajuda quando tenho dúvidas.
+          </p>
+        </div>
+        <div class="tl-card rounded-2xl p-5 sm:p-6">
+          <h4 class="font-heading font-bold mb-2">Transparência e respeito nas discussões</h4>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            Os comentários reconheceram a transparência ao longo das entregas e a forma como trago
+            perguntas construtivas e exponho meu ponto de vista com respeito quando há divergências.
+          </p>
+        </div>
+        <div class="tl-card rounded-2xl p-5 sm:p-6">
+          <h4 class="font-heading font-bold mb-2">Bom humor sob pressão</h4>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            Os colegas lembraram de como celebro as conquistas do time e ajudo a manter as
+            conversas e reuniões leves, inclusive em momentos de pressão.
+          </p>
+        </div>
+      </div>
+    </section>
   </div>
 </section>
 
@@ -479,7 +541,7 @@
           <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
             Participação no projeto SAM (Microsoft &amp; Autodesk), monitoramento de treinamentos de TI
             para todos os funcionários, gerenciamento de ambientes SAP e Cloud.
-            Liderança de auditoria interna — base sólida em infraestrutura e gestão que
+            Liderança de auditoria interna, base sólida em infraestrutura e gestão que
             pavimentou a transição intencional para dados.
           </p>
         </div>
@@ -534,10 +596,9 @@
           <span class="inline-block text-xs font-mono mb-2" style="color:var(--purple-l);">Engenheiro de Dados Júnior · Tempo Integral</span>
           <h3 class="font-heading text-xl font-bold mb-2" style="color:var(--t1);">C6 Bank</h3>
           <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
-            Efetivado após 1 ano e 5 meses de estágio. Responsável por arquitetar e manter pipelines
-            de dados críticos na plataforma do C6 Bank, garantindo disponibilidade, organização e
-            confiabilidade das informações. Premiado com o <strong style="color:var(--t1);">Prêmio Catalise 2x pelo 3º semestre consecutivo</strong>
-            — primeiro por Autorcracia e depois pelos três pilares em simultâneo: Autocrítica, Frescobol e Bom Humor.
+            Criei o DataDex, portal adotado pelo time de dados para operar pipelines e automatizar entregas.
+            Participei das migrações para novas versões das stacks de ingestão de Event Cloud (extração de eventos),
+            Salesforce, MongoDB e arquivos. Também corrijo os templates dessas ingestões e proponho novas arquiteturas.
           </p>
         </div>
       </div>
@@ -669,7 +730,7 @@
         </div>
       </div>
       <div class="mt-4 text-center">
-        <button id="cert-open-btn" class="cert-btn">Ver todos os certificados →</button>
+        <button id="cert-open-btn" type="button" aria-haspopup="dialog" class="cert-btn">Ver todos os certificados →</button>
       </div>
     </div>
   </div>
@@ -681,140 +742,81 @@
 ════════════════════════════════════════════ -->
 <section id="projetos" class="py-24 border-y" style="background:rgba(10,15,30,.6); border-color:var(--border);">
   <div class="max-w-6xl mx-auto px-6">
+    <h2 class="font-heading text-4xl font-bold leading-tight text-center mb-10">
+      Projetos <span class="g-text">e contribuições</span>
+    </h2>
 
-    <div class="text-center mb-14 reveal">
-      <p class="s-tag mb-3">// portfólio de projetos</p>
-      <h2 class="font-heading text-4xl font-bold leading-tight" style="color:var(--t1);">
-        Casos de Uso <span class="g-text">em produção</span>
-      </h2>
-      <p class="font-body mt-4" style="color:var(--t2);">Problemas reais · Arquiteturas reais · Impactos mensuráveis</p>
-    </div>
+    <article class="datadex-case rounded-2xl overflow-hidden" aria-labelledby="datadex-title">
+      <div class="datadex-feature grid">
+        <header class="p-6 sm:p-10">
+          <p class="text-xs font-mono mb-5" style="color:var(--purple-l);">Projeto interno · C6 Bank</p>
+          <h3 id="datadex-title" class="g-text w-fit scroll-mt-24 font-heading text-5xl sm:text-6xl font-extrabold tracking-tight mb-4">
+            DataDex
+          </h3>
+          <p class="text-xl font-heading font-bold mb-4">O portal de trabalho do time de dados</p>
+          <p class="font-body leading-relaxed max-w-xl" style="color:var(--t2);">
+            Criei o DataDex para reunir em um portal web o trabalho que antes passava por várias ferramentas.
+            Hoje, todo o time usa o portal, e a maior parte das demandas de dados passa por ele.
+          </p>
+        </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <ul class="datadex-impact grid content-center gap-6 p-6 sm:p-10" style="color:var(--t2);">
+          <li>
+            <strong class="block text-4xl sm:text-5xl font-heading font-extrabold mb-1" style="color:var(--purple-l);">20+</strong>
+            <span class="text-sm font-body">usuários no time de dados</span>
+          </li>
+          <li>
+            <strong class="block text-4xl sm:text-5xl font-heading font-extrabold mb-1" style="color:var(--purple-l);">≥ 80%</strong>
+            <span class="text-sm font-body">de redução no tempo de uma atividade com a automação</span>
+          </li>
+        </ul>
+      </div>
 
-      <!-- Card 1 -->
-      <article class="reveal proj-card rounded-2xl p-6 flex flex-col">
-        <div class="flex items-center justify-between mb-5">
-          <span class="px-2.5 py-1 text-xs font-mono rounded-lg border" style="background:rgba(124,58,237,.15); color:var(--purple-l); border-color:rgba(124,58,237,.3);">Batch Pipeline · C6 Bank</span>
-          <span class="text-xs font-mono px-2 py-0.5 rounded" style="color:var(--t3); background:var(--surface);">🔒 prod</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7 p-6 sm:p-10 border-t" style="border-color:var(--border);">
+        <div>
+          <h4 class="font-heading font-bold mb-2">Operação de pipelines</h4>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            O portal reúne informações do Confluence, Jira, DBeaver, BigQuery e Bitbucket para criar, ajustar e reprocessar pipelines de dados.
+          </p>
         </div>
-        <h3 class="font-heading text-xl font-bold mb-5" style="color:var(--t1);">Pipeline de Ingestão Multi-Source</h3>
-        <div class="flex-1 space-y-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--red);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--red);">Problema</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Dados de fontes heterogêneas (bancos relacionais, MongoDB, Salesforce e arquivos de diferentes formatos) chegando sem padronização, comprometendo a confiabilidade da plataforma de dados.</p>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--purple-l);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--purple-l);">Solução Arquitetural</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Pipeline batch com Dataflow para transformações padronizadas, Transfer Jobs para fluxos estruturados e BigQuery como destino analítico centralizado. Conectores customizados em Python para MongoDB e Salesforce.</p>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--green);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--green);">Impacto</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Consolidação de múltiplas fontes em plataforma única confiável, com rastreabilidade de cada registro da origem ao destino analítico.</p>
-          </div>
+        <div>
+          <h4 class="font-heading font-bold mb-2">Automação das entregas</h4>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            O DataDex automatiza a criação de pull requests, documentação e formulários de mudança.
+          </p>
         </div>
-        <div class="mt-5 pt-5 flex flex-wrap gap-2" style="border-top:1px solid var(--border);">
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Dataflow</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">BigQuery</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Python</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">MongoDB</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Salesforce</span>
+        <div>
+          <h4 class="font-heading font-bold mb-2">Evolução pelo time</h4>
+          <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+            O DataDex passou a ser um projeto da área. Com a esteira que criei, qualquer pessoa do time pode adicionar novas automações.
+          </p>
         </div>
+      </div>
+
+      <figure class="px-6 py-5 sm:px-10 border-t" style="background:var(--surface); border-color:var(--border);">
+        <blockquote class="font-body leading-relaxed">
+          <p>“Com o Data Dex, ele foi bem disruptivo e repensou processos que todo mundo já tinha como normais.”</p>
+        </blockquote>
+        <figcaption class="mt-2 text-xs font-mono" style="color:var(--t2);">Trecho da avaliação 270° sobre o DataDex</figcaption>
+      </figure>
+    </article>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <article class="tl-card rounded-2xl p-6 sm:p-8">
+        <p class="text-xs font-mono mb-3" style="color:var(--purple-l);">Engenharia de dados · C6 Bank</p>
+        <h3 class="font-heading text-xl font-bold mb-3">Migração de stacks de ingestão</h3>
+        <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+          Participei da migração para novas versões das stacks de ingestão de Event Cloud
+          (extração de eventos), Salesforce, MongoDB e arquivos.
+        </p>
       </article>
-
-      <!-- Card 2 -->
-      <article class="reveal proj-card rounded-2xl p-6 flex flex-col">
-        <div class="flex items-center justify-between mb-5">
-          <span class="px-2.5 py-1 text-xs font-mono rounded-lg border" style="background:rgba(59,130,246,.15); color:var(--blue-l); border-color:rgba(59,130,246,.3);">Streaming · C6 Bank</span>
-          <span class="text-xs font-mono px-2 py-0.5 rounded" style="color:var(--t3); background:var(--surface);">🔒 prod</span>
-        </div>
-        <h3 class="font-heading text-xl font-bold mb-5" style="color:var(--t1);">Pipeline de Dados em Tempo Real</h3>
-        <div class="flex-1 space-y-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--red);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--red);">Problema</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Eventos gerados em produção precisavam ser processados e disponibilizados com baixa latência para alimentar sistemas downstream, sem o overhead de processos batch periódicos.</p>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--purple-l);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--purple-l);">Solução Arquitetural</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Pub/Sub como message broker para desacoplamento de produtores e consumidores. Dataflow (Apache Beam) para processamento em streaming. BigQuery Streaming Inserts para persistência analítica em tempo real.</p>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--green);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--green);">Impacto</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Dados disponíveis para consumo em segundos após a geração, habilitando decisões e alertas em tempo real nos sistemas do banco.</p>
-          </div>
-        </div>
-        <div class="mt-5 pt-5 flex flex-wrap gap-2" style="border-top:1px solid var(--border);">
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Pub/Sub</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Dataflow</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Apache Beam</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">BigQuery</span>
-        </div>
+      <article class="tl-card rounded-2xl p-6 sm:p-8">
+        <p class="text-xs font-mono mb-3" style="color:var(--purple-l);">Engenharia de dados · C6 Bank</p>
+        <h3 class="font-heading text-xl font-bold mb-3">Evolução dos templates de ingestão</h3>
+        <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">
+          Corrijo os templates usados nessas ingestões e proponho novas arquiteturas para os pipelines.
+        </p>
       </article>
-
-      <!-- Card 3 -->
-      <article class="reveal proj-card rounded-2xl p-6 flex flex-col">
-        <div class="flex items-center justify-between mb-5">
-          <span class="px-2.5 py-1 text-xs font-mono rounded-lg border" style="background:rgba(16,185,129,.15); color:#34D399; border-color:rgba(16,185,129,.3);">Orquestração · C6 Bank</span>
-          <span class="text-xs font-mono px-2 py-0.5 rounded" style="color:var(--t3); background:var(--surface);">🔒 prod</span>
-        </div>
-        <h3 class="font-heading text-xl font-bold mb-5" style="color:var(--t1);">Orquestração de Workflows com Airflow</h3>
-        <div class="flex-1 space-y-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--red);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--red);">Problema</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Múltiplos pipelines com dependências complexas entre tarefas sendo gerenciados de forma descentralizada, sem visibilidade de falhas, retries ou histórico de execuções.</p>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--purple-l);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--purple-l);">Solução Arquitetural</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Centralização no Cloud Composer (Airflow gerenciado na GCP). DAGs em Python definindo dependências, schedules e políticas de retry. Integração com alertas via Cloud Monitoring.</p>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="w-1.5 h-1.5 rounded-full" style="background:var(--green);"></div>
-              <span class="text-xs font-mono uppercase tracking-wider" style="color:var(--green);">Impacto</span>
-            </div>
-            <p class="text-sm font-body leading-relaxed" style="color:var(--t2);">Visibilidade centralizada de todos os workflows, detecção proativa de falhas e redução no tempo de resposta a incidentes em pipelines críticos.</p>
-          </div>
-        </div>
-        <div class="mt-5 pt-5 flex flex-wrap gap-2" style="border-top:1px solid var(--border);">
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Cloud Composer</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Airflow</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">Python</span>
-          <span class="px-2 py-0.5 text-xs font-mono rounded border" style="background:var(--surface); color:var(--t2); border-color:var(--border);">GCP Monitoring</span>
-        </div>
-      </article>
-    </div>
-
-    <div class="reveal text-center mt-12">
-      <a href="https://github.com/Gabs-Moura" target="_blank" rel="noopener"
-         class="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-heading">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-        Ver repositórios no GitHub
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-      </a>
     </div>
   </div>
 </section>
@@ -897,12 +899,13 @@
      JS
 ════════════════════════════════════════════ -->
 <!-- ════ MODAL: TODOS OS CERTIFICADOS ════ -->
-<div id="cert-modal" role="dialog" aria-modal="true" aria-labelledby="cert-modal-title">
-  <div id="cert-panel" class="p-7 md:p-9">
-    <div class="flex items-center justify-between mb-7">
-      <h2 id="cert-modal-title" class="font-heading text-lg font-bold" style="color:var(--t1);">Todos os Certificados</h2>
-      <button id="cert-close-btn" aria-label="Fechar" class="w-8 h-8 flex items-center justify-center rounded-lg text-xl transition-colors" style="color:var(--t2); background:var(--card);">&times;</button>
-    </div>
+<dialog id="cert-modal" aria-labelledby="cert-modal-title">
+  <div class="flex items-center justify-between gap-3 px-4 pt-3 pb-2 sm:px-9 sm:pt-6">
+    <h2 id="cert-modal-title" class="font-heading text-lg font-bold">Todos os Certificados</h2>
+    <button id="cert-close-btn" type="button" autofocus aria-label="Fechar certificados"
+            class="w-11 h-11 shrink-0 flex items-center justify-center rounded-lg text-xl" style="color:var(--t2); background:var(--card);">&times;</button>
+  </div>
+  <div id="cert-panel" role="region" aria-label="Lista de certificados" tabindex="0" class="px-4 pt-2 pb-5 sm:px-9 sm:pb-9">
 
     <!-- GCP & Data Engineering -->
     <div class="mb-7">
@@ -986,7 +989,7 @@
       </div>
     </div>
   </div>
-</div>
+</dialog>
 
 <script>
   const navbar = document.getElementById('navbar');
@@ -994,22 +997,25 @@
     navbar.classList.toggle('nav-scrolled', window.scrollY > 24);
   }, { passive: true });
 
-  const mobBtn   = document.getElementById('mob-btn');
-  const mobMenu  = document.getElementById('mob-menu');
-  const icoOpen  = document.getElementById('ico-open');
-  const icoClose = document.getElementById('ico-close');
+  const mobBtn = document.getElementById('mob-btn');
+  const mobMenu = document.getElementById('mob-menu');
+  const setMenuOpen = open => {
+    mobBtn.setAttribute('aria-expanded', String(open));
+    mobMenu.hidden = !open;
+  };
 
-  mobBtn.addEventListener('click', () => {
-    const open = mobMenu.classList.toggle('open');
-    icoOpen.classList.toggle('hidden', open);
-    icoClose.classList.toggle('hidden', !open);
+  mobBtn.addEventListener('click', () => setMenuOpen(mobMenu.hidden));
+  mobMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => setMenuOpen(false));
   });
-  mobMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      mobMenu.classList.remove('open');
-      icoOpen.classList.remove('hidden');
-      icoClose.classList.add('hidden');
-    });
+  navbar.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !mobMenu.hidden) {
+      setMenuOpen(false);
+      mobBtn.focus();
+    }
+  });
+  window.matchMedia('(min-width: 768px)').addEventListener('change', event => {
+    if (event.matches) setMenuOpen(false);
   });
 
   const revealObs = new IntersectionObserver((entries) => {
@@ -1036,13 +1042,14 @@
     });
   }, { passive: true });
 
-  const certModal  = document.getElementById('cert-modal');
-  const openCertModal  = () => { certModal.classList.add('open'); document.body.style.overflow = 'hidden'; };
-  const closeCertModal = () => { certModal.classList.remove('open'); document.body.style.overflow = ''; };
-  document.getElementById('cert-open-btn').addEventListener('click', openCertModal);
-  document.getElementById('cert-close-btn').addEventListener('click', closeCertModal);
-  certModal.addEventListener('click', e => { if (e.target === certModal) closeCertModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCertModal(); });
+  const certModal = document.getElementById('cert-modal');
+  const certOpenButton = document.getElementById('cert-open-btn');
+  certOpenButton.addEventListener('click', () => certModal.showModal());
+  document.getElementById('cert-close-btn').addEventListener('click', () => certModal.close());
+  certModal.addEventListener('click', event => {
+    if (event.target === certModal) certModal.close();
+  });
+  certModal.addEventListener('close', () => certOpenButton.focus({ preventScroll: true }));
 </script>
 </body>
 </html>
